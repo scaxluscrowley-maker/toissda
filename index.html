@@ -1,0 +1,536 @@
+<!--
+
+Então, mais alguém chegou aqui e, para minha surpresa, veio do mesmo lugar de onde vim. Faz mil anos que estou neste lugar; sinto-me jovem e, ao mesmo tempo, confuso. Não sei o que procuras, mas digo com fé que não encontrarás nada por aqui. Se queres ir em frente, não sei como te ajudar nisso. As únicas coisas que podem ser úteis a você são:
+
+0. Entendê-los e procurá-los
+1. .rar
+2. Combustão
+3. Informações em informações
+4. HASHES
+
+-->
+
+<!DOCTYPE html>
+<html lang="ga">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Mhór-Ríoghain - Leibhéal 8</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Uncial+Antiqua&display=swap');
+
+        :root {
+            --deep-green: #05140a;
+            --forest-green: #0f2b1d; 
+            --gold: #c5a059;
+            --faded-gold: #8a703e;
+            --red-alert: #8a0303;
+            --text-glow: rgba(197, 160, 89, 0.3);
+        }
+
+        body {
+            background-color: var(--deep-green);
+            color: var(--gold);
+            font-family: 'Uncial Antiqua', serif;
+            margin: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            user-select: text; 
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--deep-green); }
+        ::-webkit-scrollbar-thumb { background: var(--faded-gold); border-radius: 4px; }
+
+        .level-box {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            border: 2px solid var(--faded-gold);
+            padding: 10px 25px;
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 18px;
+            background-color: rgba(5, 20, 10, 0.85);
+            z-index: 100;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .background-symbols {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .symbol {
+            position: absolute;
+            opacity: 0.15;
+            filter: invert(1);
+            animation: float 20s infinite linear;
+        }
+
+        .sym-1 { top: 10%; left: 10%; width: 150px; animation-duration: 30s; }
+        .sym-2 { bottom: 15%; right: 10%; width: 120px; animation-duration: 25s; animation-direction: reverse; }
+        .sym-3 { top: 50%; left: 5%; width: 100px; animation-duration: 40s; }
+        .sym-4 { top: 20%; right: 20%; width: 80px; animation-duration: 35s; }
+        .sym-5 { bottom: 5%; left: 20%; width: 130px; animation-duration: 45s; }
+        .sym-6 { top: 80%; right: 50%; width: 90px; animation-duration: 50s; }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 700px;
+            width: 85%;
+            margin-top: 20px;
+            padding-bottom: 50px;
+        }
+
+        .arch-frame {
+            position: relative;
+            width: 200px;
+            height: 220px;
+            border: 8px solid #0a1a10; 
+            outline: 2px solid var(--faded-gold);
+            border-radius: 180px 180px 0 0;
+            padding: 10px;
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 30%, #000 100%);
+            box-shadow: 0 0 50px rgba(5, 20, 10, 0.9), inset 0 0 30px #000;
+            overflow: hidden;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+
+        .goddess-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 170px 170px 0 0;
+            filter: sepia(0.4) contrast(1.1) brightness(0.8);
+            transition: filter 1s ease;
+        }
+
+        .goddess-img.awakened {
+            filter: sepia(0.1) contrast(1.2) brightness(1);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .dialogue-area {
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px #000;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #8f9e8a;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            min-height: 30px;
+        }
+
+        .enigma-img {
+            width: 100%;
+            max-width: 450px;
+            border: 2px solid var(--faded-gold);
+            margin: 20px 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 0 15px rgba(0,0,0,0.7);
+        }
+
+        .enigma-img:hover {
+            transform: scale(1.02);
+            border-color: var(--gold);
+        }
+
+        .poema {
+            font-family: 'Cinzel', serif;
+            font-style: italic;
+            color: #d1d1d1;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .hash-display {
+            font-family: monospace;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border: 1px dashed var(--gold);
+            color: #ff5555;
+            font-size: 16px;
+            margin-top: 15px;
+            word-break: break-all;
+        }
+        
+        .final-hash-container {
+            margin-top: 30px;
+            border: 2px solid var(--gold);
+            padding: 20px;
+            background: rgba(197, 160, 89, 0.1);
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px var(--faded-gold); }
+            50% { box-shadow: 0 0 25px var(--gold); }
+            100% { box-shadow: 0 0 10px var(--faded-gold); }
+        }
+
+        .input-group {
+            position: relative;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        input {
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            border-bottom: 2px solid var(--faded-gold);
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            text-align: center;
+            padding: 10px;
+            width: 280px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input::placeholder { color: rgba(197, 160, 89, 0.3); }
+
+        input:focus {
+            border-color: var(--gold);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            background: transparent;
+            color: var(--faded-gold);
+            border: 1px solid var(--faded-gold);
+            padding: 10px 40px;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        button:hover {
+            background: var(--faded-gold);
+            color: #000;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        #challenge-container {
+            display: none;
+            opacity: 0;
+            transition: opacity 2s;
+            margin-top: 10px;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+            padding-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="level-box">Leibhéal - 8</div>
+
+    <div class="background-symbols">
+        <img src="Triskele.png" class="symbol sym-1" onerror="this.style.display='none'">
+        <img src="Triquetra.png" class="symbol sym-2" onerror="this.style.display='none'">
+        <img src="Daraknot.png" class="symbol sym-3" onerror="this.style.display='none'">
+        <img src="Spiral.png" class="symbol sym-4" onerror="this.style.display='none'">
+        <img src="Awen.png" class="symbol sym-5" onerror="this.style.display='none'">
+        <img src="Wheel.png" class="symbol sym-6" onerror="this.style.display='none'">
+    </div>
+
+    <div class="content-wrapper">
+        <div class="arch-frame">
+            <img src="bandia.png" alt="..." class="goddess-img" id="morriganImg">
+        </div>
+
+        <div class="dialogue-area">
+            <h1 id="mainTitle">...</h1>
+            <p id="subText"></p> 
+            
+            <div id="nameInputSection">
+                <div class="input-group">
+                    <input type="text" id="userInput" placeholder="..." autocomplete="off">
+                </div>
+                <button onclick="checkName()">Freagair</button> 
+            </div>
+
+            <div id="challenge-container"></div>
+        </div>
+    </div>
+
+    <script>
+        function d(str) {
+            return decodeURIComponent(escape(window.atob(str)));
+        }
+
+        function check(input, allowedHashes) {
+            if (!input) return false;
+            const encodedInput = btoa(encodeURIComponent(input));
+            return allowedHashes.includes(encodedInput);
+        }
+
+        const _ANSWERS = {
+            level0: [
+                "bW9ycmlnYW4=",                         
+                "YW4lMjBtb3JyaWdhbg==",                 
+                "YW4lMjBtaCVDMyVCM3ItciVDMyVBRG9naGFpbg==" 
+            ],
+            level1: [
+                "Y2xhb2NobCVDMyVCQQ==",                 
+                "Y2xhb2NobHU="                          
+            ],
+            level2: [
+                "c29sYXMlMjBiJUMzJUExbg==",             
+                "c29sYXMlMjBiYW4=",                     
+            ],
+            level3: [
+                "dCVDMyVBRHIlMjBuYSUyMG4lQzMlQjNn",     
+                "dGlyJTIwbmElMjBub2c="                  
+            ]
+        };
+
+        const _T1 = "Q2lhIGFzIG1vIGFpbm0sIGEgZGhhb25uYcOtPw=="; 
+        const _R1 = "VMOhIGEgZmhpb3MgYWdhbSBjw6luIGbDoXRoIGEgYmhmdWlsIHTDuiBhbnNlby4uLiBUYWJoYXJmYWlkaCBtw6kgYnJlaXRoacO6bmFzIGFuIGJoZnVpbCB0w7ogZmnDum50YWNoLg=="; 
+        const _E1 = "TmlzIGhlYS4gSW1pZ2ggbGVhdC4="; 
+        const _R2 = "RMOXY2jDs2RhaWdoIGFuIGRyYcOtb2NodCBzZW8uLi4gYWJhaXIgYSBoYWlubS4uLiBhZ3VzIHJhY2hhaWRoIHTDuiBhciBhZ2hhaWRoLg=="; 
+        const _R3 = "QW4gbWJyYWl0aGVhbm4gdMO6IHNhIGJoYWlsZSBhbm9pcz8gQ8OhIGJoZnVpbCB0w7ouLi4gQmh1ZWwuLi4="; 
+        const _FIN = "VMOhIHPDuWlsIGFnYW0gZ28gbWJlaWRoC3PDqSDDunPDoWlkZWFjaCBkdWl0Li4uIGRvbXNhLCBiYSBiaHJ1c2NhciBpIGdjw7NuYcOtIGFuIGFsZ2FydGFtIHNlby4="; 
+
+        document.getElementById('mainTitle').innerText = d(_T1);
+
+        function typeWriter(elementId, text, speed = 40) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = "";
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const active = document.activeElement;
+                if (active.id === 'userInput') checkName();
+                else if (active.id === 'enigmaInput') checkEnigma1();
+                else if (active.id === 'enigma2Input') checkEnigma2();
+                else if (active.id === 'enigma3Input') checkEnigma3();
+            }
+        });
+
+        function checkName() {
+            const input = document.getElementById('userInput');
+            const val = input.value.trim().toLowerCase();
+            const title = document.getElementById('mainTitle');
+            const subText = document.getElementById('subText');
+            const img = document.getElementById('morriganImg');
+            const inputSection = document.getElementById('nameInputSection');
+            const challengeContainer = document.getElementById('challenge-container');
+
+            if (check(val, _ANSWERS.level0)) {
+                img.classList.add("awakened");
+                inputSection.style.display = "none";
+                title.innerText = "An Mhór-Ríoghain";
+                typeWriter('subText', d(_R1), 30); 
+
+                setTimeout(() => {
+                    loadEnigma1();
+                    challengeContainer.style.display = "block";
+                    setTimeout(() => { challengeContainer.style.opacity = "1"; }, 100);
+                }, 4500);
+
+            } else {
+                subText.style.color = "#8a0303";
+                subText.innerText = d(_E1); 
+                input.value = "";
+                setTimeout(() => { subText.style.color = "#8f9e8a"; subText.innerText = ""; }, 3000);
+            }
+        }
+
+        function loadEnigma1() {
+            const container = document.getElementById('challenge-container');
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <a href="enigma1.jpg" download title="...">
+                        <img src="enigma1.jpg" alt="..." class="enigma-img">
+                    </a>
+                    <div class="poema">
+                        "Ní fanaim... ach gabhaim tríd...<br>
+                        ní hionann an rud a chonaic tú agus an rud a d'fhéach tú air.<br>
+                        Is earra é a shocrú... mar idir anois agus arís níl an rud céanna ann."
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="enigmaInput" placeholder="..." autocomplete="off">
+                </div>
+                <button onclick="checkEnigma1()">Nocht</button>
+                <div id="rewardArea" style="display:none;"></div>
+            `;
+        }
+
+        function checkEnigma1() {
+            const input = document.getElementById('enigmaInput').value.trim().toLowerCase();
+            const rewardArea = document.getElementById('rewardArea');
+
+            if (check(input, _ANSWERS.level1)) {
+                document.getElementById('enigmaInput').disabled = true;
+                rewardArea.style.display = 'block';
+                rewardArea.innerHTML = `
+                    <p style="font-size:14px; font-style:italic;">Cuid 1 / 3</p>
+                    <div class="hash-display">21499b8293b51b616bbe10</div>
+                    <button onclick="transitionToEnigma2()" style="margin-top:20px; border-color: #fff;">Lean ar aghaidh >></button>
+                `;
+            } else {
+                alert("...");
+            }
+        }
+
+        function transitionToEnigma2() {
+            const container = document.getElementById('challenge-container');
+            container.style.opacity = "0";
+            typeWriter('subText', d(_R2), 30);
+
+            setTimeout(() => {
+                loadEnigma2();
+                container.style.opacity = "1";
+            }, 2000);
+        }
+
+        function loadEnigma2() {
+            const container = document.getElementById('challenge-container');
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <img src="enigma2.jpg" alt="..." class="enigma-img" style="border-color: #fff;">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="enigma2Input" placeholder="..." autocomplete="off">
+                </div>
+                <button onclick="checkEnigma2()">Nocht</button>
+                <div id="rewardArea2" style="display:none;"></div>
+            `;
+        }
+
+        function checkEnigma2() {
+            const input = document.getElementById('enigma2Input').value.trim().toLowerCase();
+            const rewardArea = document.getElementById('rewardArea2');
+
+            if (check(input, _ANSWERS.level2)) {
+                document.getElementById('enigma2Input').disabled = true;
+                rewardArea.style.display = 'block';
+                rewardArea.innerHTML = `
+                    <p style="font-size:14px; font-style:italic;">Cuid 2 / 3</p>
+                    <div class="hash-display">08434f3f604f527c37c93</div>
+                    <button onclick="transitionToEnigma3()" style="margin-top:20px; border-color: #fff;">Lean ar aghaidh >></button>
+                `;
+            } else {
+                alert("...");
+            }
+        }
+
+        function transitionToEnigma3() {
+            const container = document.getElementById('challenge-container');
+            container.style.opacity = "0";
+            typeWriter('subText', d(_R3), 30);
+
+            setTimeout(() => {
+                loadEnigma3();
+                container.style.opacity = "1";
+            }, 2000);
+        }
+
+        function loadEnigma3() {
+            const container = document.getElementById('challenge-container');
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <a href="enigma3.jpg" download>
+                        <img src="enigma3.jpg" alt="..." class="enigma-img" style="border-color: #8a0303;">
+                    </a>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="enigma3Input" placeholder="..." autocomplete="off">
+                </div>
+                <button onclick="checkEnigma3()">Nocht</button>
+                
+                <div id="rewardArea3" style="display:none;"></div>
+            `;
+        }
+
+        function checkEnigma3() {
+            const input = document.getElementById('enigma3Input').value.trim().toLowerCase();
+            const rewardArea = document.getElementById('rewardArea3');
+
+            if (check(input, _ANSWERS.level3)) {
+                document.getElementById('enigma3Input').disabled = true;
+                rewardArea.style.display = 'block';
+                
+                rewardArea.innerHTML = `
+                    <div class="final-hash-container">
+                        <h2 style="color: var(--gold); font-family:'Cinzel', serif;">TÁ SÉ CRÍOCHNAITHE!</h2>
+                        
+                        <p style="color: #fff; font-style: italic; margin-top: 20px;">
+                            "${d(_FIN)}"
+                        </p>
+                        
+                        <hr style="border-color: var(--faded-gold); opacity:0.3;">
+                        <p style="font-size:14px; font-style:italic;">Cuid 3 / 3</p>
+                        <div class="hash-display">c156528fc868dc31d06c3</div>
+                    </div>
+                `;
+                
+                document.getElementById('morriganImg').style.filter = "sepia(0) contrast(1.5) brightness(1.2)";
+                document.getElementById('mainTitle').innerText = "TÍR NA NÓG";
+                
+            } else {
+                alert("...");
+            }
+        }
+    </script>
+</body>
+</html>
